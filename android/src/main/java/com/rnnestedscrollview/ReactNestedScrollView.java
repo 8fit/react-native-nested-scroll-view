@@ -257,35 +257,11 @@ public class ReactNestedScrollView extends NestedScrollView implements ReactClip
 
   @Override
   public void fling(int velocityY) {
-    if (mScroller != null) {
-      // FB SCROLLVIEW CHANGE
-
-      // We provide our own version of fling that uses a different call to the standard OverScroller
-      // which takes into account the possibility of adding new content while the ScrollView is
-      // animating. Because we give essentially no max Y for the fling, the fling will continue as long
-      // as there is content. See #onOverScrolled() to see the second part of this change which properly
-      // aborts the scroller animation when we get to the bottom of the ScrollView content.
-
-      int scrollWindowHeight = getHeight() - getPaddingBottom() - getPaddingTop();
-
-      mScroller.fling(
-        getScrollX(),
-        getScrollY(),
-        0,
-        velocityY,
-        0,
-        0,
-        0,
-        Integer.MAX_VALUE,
-        0,
-        scrollWindowHeight / 2);
-
-      postInvalidateOnAnimation();
-
-      // END FB SCROLLVIEW CHANGE
-    } else {
-      super.fling(velocityY);
-    }
+    /*
+     * We're having problems with the {@link #mScroller#fling}, that's why we're going to relay on
+     * {@link #fling(int)} for the moment.
+     */
+    super.fling(velocityY);
 
     if (mSendMomentumEvents || isScrollPerfLoggingEnabled()) {
       mFlinging = true;
